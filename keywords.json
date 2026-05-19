@@ -1,1 +1,5 @@
-
+{
+  "birthday": "https://example.com/birthday",
+  "gift": "https://example.com/gift",
+  "surprise": "https://example.com/surprise"
+}
