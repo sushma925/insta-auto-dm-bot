@@ -1,1 +1,45 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unlock Link</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="font-family: Arial; text-align:center; padding:40px;">
+
+<h1>🔓 Unlock Your Link</h1>
+
+<p>Follow @sushma.tales first</p>
+
+<button onclick="unlock()">
+I FOLLOWED ✅
+</button>
+
+<div id="result" style="margin-top:20px;"></div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const key = params.get("key");
+
+const links = {
+  birthday: "https://example.com/birthday",
+  gift: "https://example.com/gift",
+  surprise: "https://example.com/surprise"
+};
+
+function unlock() {
+  const link = links[key];
+
+  if(link){
+    document.getElementById("result")
+      .innerHTML =
+      `<a href="${link}" target="_blank">
+      Click here to open 🔗
+      </a>`;
+  }
+}
+</script>
+
+</body>
+</html>
