@@ -1,17 +1,23 @@
 require("dotenv").config();
-const PORT =process.env.PORT||3000;
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const keywords = require("./keywords.json");
 
 const app = express();
+
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IG_USERNAME = "sushma.tales";
+
+// Homepage
+app.get("/", (req, res) => {
+  res.send("Instagram Auto DM Bot is Live 🚀");
+});
 
 // Webhook verification
 app.get("/webhook", (req, res) => {
@@ -43,11 +49,10 @@ app.post("/webhook", async (req, res) => {
 
           if (!commentText || !userId) continue;
 
-          // Check keyword
           for (const keyword in keywords) {
             if (commentText.includes(keyword)) {
 
-              // Comment reply
+              // Reply to comment
               await replyToComment(
                 change.value.id,
                 "Check your DM 👀"
@@ -59,7 +64,7 @@ app.post("/webhook", async (req, res) => {
                 `Hey 👋 Follow @${IG_USERNAME} to unlock your link 🔓
 
 Click below after following:
-https://yourdomain.com/unlock.html?key=${keyword}`
+https://insta-auto-dm-bot-3nco.onrender.com/unlock.html?key=${keyword}`
               );
 
               break;
@@ -81,9 +86,7 @@ async function replyToComment(commentId, message) {
   try {
     await axios.post(
       `https://graph.facebook.com/v23.0/${commentId}/replies`,
-      {
-        message
-      },
+      { message },
       {
         params: {
           access_token: PAGE_ACCESS_TOKEN
@@ -116,6 +119,7 @@ async function sendDM(userId, message) {
 }
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () =>
   console.log(`Server running on ${PORT}`)
 );
